@@ -1,0 +1,377 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Minecraft Bedrock Add-On Manifest",
+  "description": "Skema untuk file manifest.json pack Minecraft Bedrock Edition.",
+  "type": "object",
+  "properties": {
+    "format_version": {
+      "description": "Versi sintaks yang digunakan dalam file manifest.",
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "header": {
+      "description": "Berisi informasi publik tentang pack.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Nama pack yang akan tampil di dalam game.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Deskripsi singkat pack, akan muncul di bawah nama.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "Pengidentifikasi unik (UUID) untuk pack ini.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "version": {
+          "description": "Versi pack. Bisa berupa array [major, minor, patch] atau string SemVer (untuk format_version 3).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "min_engine_version": {
+          "description": "Versi game minimum yang diperlukan pack ini. Bisa berupa array [major, minor, patch] atau string SemVer (untuk format_version 3).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "pack_scope": {
+          "description": "(Resource Pack) Menentukan jangkauan pack: 'world', 'global', atau 'any'.",
+          "type": "string",
+          "enum": [
+            "world",
+            "global",
+            "any"
+          ]
+        },
+        "allow_random_seed": {
+          "description": "(World Template) Menghasilkan seed acak setiap kali template dimuat.",
+          "type": "boolean"
+        },
+        "base_game_version": {
+          "description": "(World Template) Versi base game yang diperlukan template dunia.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "lock_template_options": {
+          "description": "(World Template) Mengunci opsi dunia agar tidak bisa diubah pemain.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "uuid",
+        "version"
+      ]
+    },
+    "modules": {
+      "description": "Mendefinisikan tipe konten yang dibawa oleh pack ini.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "Deskripsi singkat modul.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Tipe modul.",
+            "type": "string",
+            "enum": [
+              "resources",
+              "data",
+              "world_template",
+              "script",
+              "client_data"
+            ]
+          },
+          "uuid": {
+            "description": "Pengidentifikasi unik (UUID) untuk modul ini.",
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "version": {
+            "description": "Versi modul. Bisa berupa array [major, minor, patch] atau string SemVer (untuk format_version 3).",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            ]
+          },
+          "language": {
+            "description": "Bahasa skrip yang digunakan (hanya jika tipe 'script').",
+            "type": "string",
+            "enum": [
+              "javascript"
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "type",
+          "uuid",
+          "version"
+        ],
+        "if": {
+          "properties": {
+            "type": {
+              "const": "script"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "language": {
+              "type": "string",
+              "enum": [
+                "javascript"
+              ]
+            }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "dependencies": {
+      "description": "Mendefinisikan pack lain yang diperlukan agar pack ini berfungsi.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "description": "UUID dari pack yang menjadi dependensi.",
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "module_name": {
+            "description": "Nama modul scripting bawaan (contoh: '@minecraft/server').",
+            "type": "string"
+          },
+          "version": {
+            "description": "Versi pack dependensi. Bisa berupa array [major, minor, patch] atau string SemVer.",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            ]
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "uuid"
+            ]
+          },
+          {
+            "required": [
+              "module_name"
+            ]
+          }
+        ]
+      }
+    },
+    "capabilities": {
+      "description": "Fitur opsional yang dapat diaktifkan.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "chemistry",
+          "editorExtension",
+          "experimental_custom_ui",
+          "raytraced"
+        ]
+      }
+    },
+    "metadata": {
+      "description": "Metadata tentang file, seperti penulis dan lisensi.",
+      "type": "object",
+      "properties": {
+        "authors": {
+          "description": "Nama penulis pack.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "description": "Lisensi pack.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Situs web untuk pack.",
+          "type": "string"
+        },
+        "product_type": {
+          "description": "Mengidentifikasi pack sebagai 'addon'.",
+          "type": "string",
+          "enum": [
+            "addon"
+          ]
+        },
+        "generated_with": {
+          "description": "Mengidentifikasi alat yang digunakan untuk membuat manifest.",
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9_-]{1,32}$": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "description": "(Hanya v3+) Pengaturan kustom yang terlihat oleh pengguna di menu.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "label"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "toggle"
+              },
+              "text": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "text",
+              "name",
+              "default"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "slider"
+              },
+              "text": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "step": {
+                "type": "number"
+              },
+              "default": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type",
+              "text",
+              "name",
+              "min",
+              "max",
+              "step",
+              "default"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "format_version",
+    "header",
+    "modules"
+  ]
+}

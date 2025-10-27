@@ -1,0 +1,377 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Minecraft Bedrock Add-On Manifest",
+  "description": "Schema for the manifest.json file of a Minecraft Bedrock Edition pack.",
+  "type": "object",
+  "properties": {
+    "format_version": {
+      "description": "The syntax version used in the manifest file.",
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "header": {
+      "description": "Contains public-facing information about the pack.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the pack as it appears in-game.",
+          "type": "string"
+        },
+        "description": {
+          "description": "A short description of the pack, which appears below the name.",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "A special type of identifier (UUID) that uniquely identifies this pack.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "version": {
+          "description": "The version of your pack. Can be an array [major, minor, patch] or a SemVer string (for format_version 3).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "min_engine_version": {
+          "description": "The minimum game version this pack was written for. Can be an array [major, minor, patch] or a SemVer string (for format_version 3).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "pack_scope": {
+          "description": "(Resource Pack) Specifies the scope of the pack: 'world', 'global', or 'any'.",
+          "type": "string",
+          "enum": [
+            "world",
+            "global",
+            "any"
+          ]
+        },
+        "allow_random_seed": {
+          "description": "(World Template) Generates a random seed every time the template is loaded.",
+          "type": "boolean"
+        },
+        "base_game_version": {
+          "description": "(World Template) The version of the base game your world template requires.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          ]
+        },
+        "lock_template_options": {
+          "description": "(World Template) Locks world options to prevent player modification.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "uuid",
+        "version"
+      ]
+    },
+    "modules": {
+      "description": "Defines the type of content brought in by this pack.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "A short description of the module.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the module.",
+            "type": "string",
+            "enum": [
+              "resources",
+              "data",
+              "world_template",
+              "script",
+              "client_data"
+            ]
+          },
+          "uuid": {
+            "description": "A unique identifier (UUID) for this module.",
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "version": {
+            "description": "The version of the module. Can be an array [major, minor, patch] or a SemVer string (for format_version 3).",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            ]
+          },
+          "language": {
+            "description": "The script language used (only if type is 'script').",
+            "type": "string",
+            "enum": [
+              "javascript"
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "type",
+          "uuid",
+          "version"
+        ],
+        "if": {
+          "properties": {
+            "type": {
+              "const": "script"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "language": {
+              "type": "string",
+              "enum": [
+                "javascript"
+              ]
+            }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "dependencies": {
+      "description": "Defines any other packs required for this pack to work.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "description": "The UUID of the dependent pack.",
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          },
+          "module_name": {
+            "description": "The name of a built-in scripting module (e.g., '@minecraft/server').",
+            "type": "string"
+          },
+          "version": {
+            "description": "The specific version of the dependent pack. Can be an array [major, minor, patch] or a SemVer string.",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            ]
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "uuid"
+            ]
+          },
+          {
+            "required": [
+              "module_name"
+            ]
+          }
+        ]
+      }
+    },
+    "capabilities": {
+      "description": "Optional features that can be enabled in Minecraft.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "chemistry",
+          "editorExtension",
+          "experimental_custom_ui",
+          "raytraced"
+        ]
+      }
+    },
+    "metadata": {
+      "description": "Metadata about the file, such as authors and licensing information.",
+      "type": "object",
+      "properties": {
+        "authors": {
+          "description": "Name(s) of the author(s) of the pack.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "description": "The license of the pack.",
+          "type": "string"
+        },
+        "url": {
+          "description": "The home website of your pack.",
+          "type": "string"
+        },
+        "product_type": {
+          "description": "Identifies the pack as an 'addon'.",
+          "type": "string",
+          "enum": [
+            "addon"
+          ]
+        },
+        "generated_with": {
+          "description": "Identifies the tools used to generate the manifest.",
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9_-]{1,32}$": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "description": "(v3+ only) Optional user-visible settings screen for the pack.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "label"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "toggle"
+              },
+              "text": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "text",
+              "name",
+              "default"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "slider"
+              },
+              "text": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "step": {
+                "type": "number"
+              },
+              "default": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type",
+              "text",
+              "name",
+              "min",
+              "max",
+              "step",
+              "default"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "format_version",
+    "header",
+    "modules"
+  ]
+}
