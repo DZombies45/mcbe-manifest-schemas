@@ -166,41 +166,47 @@
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
+
         "properties": {
           "uuid": {
-            "description": "UUID dari pack yang menjadi dependensi.",
             "type": "string",
-            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            "format": "uuid"
           },
           "module_name": {
-            "description": "Nama modul scripting bawaan (contoh: '@minecraft/server').",
             "type": "string"
           },
-          "version": {
-            "description": "Versi pack dependensi. Bisa berupa array [major, minor, patch] atau string SemVer.",
-            "oneOf": [
-              {
+          "version": {}
+        },
+
+        "required": ["version"],
+
+        "oneOf": [
+          {
+            "required": ["uuid"],
+            "not": {
+              "required": ["module_name"]
+            },
+            "properties": {
+              "version": {
                 "type": "array",
-                "items": {
-                  "type": "integer"
-                },
+                "items": { "type": "integer" },
                 "minItems": 3,
                 "maxItems": 3
-              },
-              {
+              }
+            }
+          },
+          {
+            "required": ["module_name"],
+            "not": {
+              "required": ["uuid"]
+            },
+            "properties": {
+              "version": {
                 "type": "string",
                 "pattern": "^(beta|preview|stable|(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)$"
               }
-            ]
-          }
-        },
-        "required": ["version"],
-        "oneOf": [
-          {
-            "required": ["uuid"]
-          },
-          {
-            "required": ["module_name"]
+            }
           }
         ]
       }
@@ -333,4 +339,3 @@
   },
   "required": ["format_version", "header", "modules"]
 }
-
