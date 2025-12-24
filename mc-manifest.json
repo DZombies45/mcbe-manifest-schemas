@@ -7,11 +7,7 @@
     "format_version": {
       "description": "Versi sintaks yang digunakan dalam file manifest.",
       "type": "integer",
-      "enum": [
-        1,
-        2,
-        3
-      ]
+      "enum": [1, 2, 3]
     },
     "header": {
       "description": "Berisi informasi publik tentang pack.",
@@ -67,11 +63,7 @@
         "pack_scope": {
           "description": "(Resource Pack) Menentukan jangkauan pack: 'world', 'global', atau 'any'.",
           "type": "string",
-          "enum": [
-            "world",
-            "global",
-            "any"
-          ]
+          "enum": ["world", "global", "any"]
         },
         "allow_random_seed": {
           "description": "(World Template) Menghasilkan seed acak setiap kali template dimuat.",
@@ -99,12 +91,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "name",
-        "description",
-        "uuid",
-        "version"
-      ]
+      "required": ["name", "description", "uuid", "version"]
     },
     "modules": {
       "description": "Mendefinisikan tipe konten yang dibawa oleh pack ini.",
@@ -152,17 +139,10 @@
           "language": {
             "description": "Bahasa skrip yang digunakan (hanya jika tipe 'script').",
             "type": "string",
-            "enum": [
-              "javascript"
-            ]
+            "enum": ["javascript"]
           }
         },
-        "required": [
-          "description",
-          "type",
-          "uuid",
-          "version"
-        ],
+        "required": ["description", "type", "uuid", "version"],
         "if": {
           "properties": {
             "type": {
@@ -174,9 +154,7 @@
           "properties": {
             "language": {
               "type": "string",
-              "enum": [
-                "javascript"
-              ]
+              "enum": ["javascript"]
             }
           }
         }
@@ -211,24 +189,18 @@
               },
               {
                 "type": "string",
-                "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+                "pattern": "^(beta|preview|stable|(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)$"
               }
             ]
           }
         },
-        "required": [
-          "version"
-        ],
+        "required": ["version"],
         "oneOf": [
           {
-            "required": [
-              "uuid"
-            ]
+            "required": ["uuid"]
           },
           {
-            "required": [
-              "module_name"
-            ]
+            "required": ["module_name"]
           }
         ]
       }
@@ -268,9 +240,7 @@
         "product_type": {
           "description": "Mengidentifikasi pack sebagai 'addon'.",
           "type": "string",
-          "enum": [
-            "addon"
-          ]
+          "enum": ["addon"]
         },
         "generated_with": {
           "description": "Mengidentifikasi alat yang digunakan untuk membuat manifest.",
@@ -302,10 +272,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "type",
-              "text"
-            ]
+            "required": ["type", "text"]
           },
           {
             "type": "object",
@@ -323,12 +290,7 @@
                 "type": "boolean"
               }
             },
-            "required": [
-              "type",
-              "text",
-              "name",
-              "default"
-            ]
+            "required": ["type", "text", "name", "default"]
           },
           {
             "type": "object",
@@ -369,9 +331,6 @@
       }
     }
   },
-  "required": [
-    "format_version",
-    "header",
-    "modules"
-  ]
+  "required": ["format_version", "header", "modules"]
 }
+
